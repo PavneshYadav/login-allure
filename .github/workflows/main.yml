@@ -41,9 +41,9 @@ jobs:
         allure generate reports/
 
     - name: Test Results
-      if: always()
       uses: actions/upload-artifact@v2
-        with:
-          name: allure-report
-          path: allure-report
+      if: always()
+      with:
+        name: smoke-testing-reports
+        path: ~/reports/
       
