@@ -28,15 +28,18 @@ class TestLoginPage(BaseClass):
         login.login_button()
         assert login.alert_pass()
         self.driver.refresh()
+        time.sleep(3)
         login.pass_word('admin')
         login.login_button()
         alert_usr = login.alert_user()
         assert "Please enter your username." in alert_usr
         self.driver.refresh()
+        time.sleep(3)
         login.login_button()
         alert_pass = login.alert_pass()
         assert "Please enter your password" in alert_pass and "Please enter your username." in alert_usr
         self.driver.refresh()
+        time.sleep(3)
         login.user_name("admin")
         login.pass_word("adm")
         login.login_button()
