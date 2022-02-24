@@ -37,7 +37,7 @@ jobs:
       run: |
         mkdir -p reports
         pwd
-        pytest --allure-dir=/home/runner/work/login-allure/login-allure/reports/
+        pytest --alluredir=/home/runner/work/login-allure/login-allure/reports/
         allure generate reports/
 
     - name: Test Results
