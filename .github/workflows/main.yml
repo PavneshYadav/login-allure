@@ -24,6 +24,7 @@ jobs:
         pip install webdriver_manager
         pip install pytest-reporter
         pip install pytest-html
+        pip install allure
         pip install flake8 pytest
         pip install -r ./requirements.txt
     - name: Lint with flake8
@@ -38,12 +39,13 @@ jobs:
         mkdir -p reports
         pwd
         pytest --alluredir=/home/runner/work/login-allure/login-allure/reports/
-        allure generate reports/
-
-    - name: Test Results
-      uses: actions/upload-artifact@v2
-      if: always()
-      with:
-        name: smoke-testing-reports
-        path: ~/reports/
+    
+    - name : allure report 
+      run: |
+          allure generate output/
+      - name: 🎁 Step 6 - Publishing Allure artifact to GitHub Actions
+        uses: actions/upload-artifact@v2
+        with:
+          name: allure-report
+          path: allure-report
       
