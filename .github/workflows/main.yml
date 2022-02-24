@@ -22,7 +22,7 @@ jobs:
           pipenv install --deploy --system
           brew update
           brew install allure
-          pip install -r ./requirements.txt
+          
         working-directory: /home/runner/work/login-allure/login-allure
       - name: 📂 Step 3 - Create a temp artifact folder named `output`
         run: |
