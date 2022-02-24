@@ -40,14 +40,6 @@ class TestLoginPage(BaseClass):
         assert "Please enter your password" in alert_pass and "Please enter your username." in alert_usr
         self.driver.refresh()
         time.sleep(3)
-        login.user_name("admin")
-        login.pass_word("adm")
-        login.login_button()
-        time.sleep(5)
-        admin = login.alert_admin()
-        assert "Please contact administrator for access." in admin
-        allure.attach(self.driver.get_screenshot_as_png(), name="Screenshot", attachment_type=AttachmentType.PNG)
-
 
     @allure.title("TestMinio - Configuration Page")
     @allure.description("This is test of minio default test Configuration")

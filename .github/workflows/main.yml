@@ -35,14 +35,15 @@ jobs:
   
     - name: Test with pytest
       run: |
-        pytest
         mkdir -p reports
-        cp -R /home/runner/work/k-lite-automation/k-lite-automation/reports/  ~/reports/
+        pwd
+        pytest --allure-dir=/home/runner/work/login-allure/login-allure/reports/
+        allure generate reports/
 
     - name: Test Results
-      uses: actions/upload-artifact@v2
       if: always()
-      with:
-        name: smoke-testing-reports
-        path: ~/reports/
+      uses: actions/upload-artifact@v2
+        with:
+          name: allure-report
+          path: allure-report
       
