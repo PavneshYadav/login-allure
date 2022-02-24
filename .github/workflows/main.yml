@@ -23,27 +23,19 @@ jobs:
         pip install pytest-html
         pip install flake8 pytest
         pip install -r ./requirements.txt
-    - name: Lint with flake8
+    working-directory: login-allure
+    - name: 📂 Step 3 - Create a temp artifact folder named `output`
       run: |
-        # stop the build if there are Python syntax errors or undefined names
-        flake8 . --count --select=E9,F63,F7,F82 --show-source --statistics
-        # exit-zero treats all errors as warnings. The GitHub editor is 127 chars wide
-        flake8 . --count --exit-zero --max-complexity=10 --max-line-length=127 --statistics    
-    
-      working-directory: ./login-allure
-    - name: Create a temp artifact folder named `output`
+        mkdir output
+    - name: 🦊 Step 4 - Run Firefox tests and generate Allure folder inside `output` folder
       run: |
-          mkdir reports 
-    
-    - name: Test with pytest
-        run: |
-          pytest --alluredir=./reports
-      
+        pytest --alluredir=output
+      working-directory: login-allure
     - name: 📊 Step 5 - Collect Allure files and generate allure-report folder
-        run: |
-          allure generate reports/
+      run: |
+        allure generate output/
     - name: 🎁 Step 6 - Publishing Allure artifact to GitHub Actions
-        uses: actions/upload-artifact@v2
-        with:
-          name: allure-report
-          path: allure-report
+      uses: actions/upload-artifact@v2
+      with:
+        name: allure-report
+        path: allure-report
