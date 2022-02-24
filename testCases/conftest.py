@@ -12,7 +12,7 @@ def setup(request):
     chrome_options = webdriver.ChromeOptions()
     prefs = {'download.default_directory': path}
     chrome_options.add_experimental_option('prefs', prefs)
-    #chrome_options.add_argument("headless")
+    chrome_options.add_argument("headless")
     chrome_options.add_argument("--disable-extensions")
     chrome_options.add_argument("--window-size=1920,1080")
     chrome_options.add_argument('--start-maximized')
