@@ -37,7 +37,7 @@ jobs:
     
     - name: Test with pytest
         run: |
-          pytest --alluredir=reports
+          pytest --alluredir=./reports
       
     - name: 📊 Step 5 - Collect Allure files and generate allure-report folder
         run: |
