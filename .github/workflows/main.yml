@@ -28,27 +28,18 @@ jobs:
         # stop the build if there are Python syntax errors or undefined names
         flake8 . --count --select=E9,F63,F7,F82 --show-source --statistics
         # exit-zero treats all errors as warnings. The GitHub editor is 127 chars wide
-        flake8 . --count --exit-zero --max-complexity=10 --max-line-length=127 --statistics
-    
+        flake8 . --count --exit-zero --max-complexity=10 --max-line-length=127 --statistics    
     - working-directory: login-allure
-      - name: Test with pytest
-      run: |
-        mkdir -p reports
-        pytest --alluredir=reports
+    - name: Test with pytest
+        run: |
+          mkdir -p reports
+          pytest --alluredir=reports
       
-      - name: 📊 Step 5 - Collect Allure files and generate allure-report folder
+    - name: 📊 Step 5 - Collect Allure files and generate allure-report folder
         run: |
           allure generate reports/
-      - name: 🎁 Step 6 - Publishing Allure artifact to GitHub Actions
+    - name: 🎁 Step 6 - Publishing Allure artifact to GitHub Actions
         uses: actions/upload-artifact@v2
         with:
           name: allure-report
           path: allure-report
-    
-
-    - name: Test Results
-      uses: actions/upload-artifact@v2
-      if: always()
-      with:
-        name: smoke-testing-reports
-        path: ~/reports/
