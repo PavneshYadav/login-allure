@@ -1,52 +1,41 @@
-# This workflow will install Python dependencies, run tests and lint with a single version of Python
-# For more information see: https://help.github.com/actions/language-and-framework-guides/using-python-with-github-actions
+name: Python tests using allure example.
 
-name: k-lite-automation
 on:
   push:
     branches: '*'
-  pull_request:
-    branches: [ main ]
-jobs:
-  build:
 
-    runs-on: ubuntu-latest
+jobs:
+  selenium_tests:
+
+    runs-on: macos-latest
 
     steps:
-    - uses: actions/checkout@v2
-    - name: Set up Python 3.9
-      uses: actions/setup-python@v2
-      with:
-        python-version: 3.9
-    - name: Install dependencies
-      run: |
-        python -m pip install --upgrade pip
-        pip install webdriver_manager
-        pip install pytest-reporter
-        pip install pytest-html
-        pip install flake8 pytest
-        pip install -r ./requirements.txt
-    - name: Lint with flake8
-      run: |
-        # stop the build if there are Python syntax errors or undefined names
-        flake8 . --count --select=E9,F63,F7,F82 --show-source --statistics
-        # exit-zero treats all errors as warnings. The GitHub editor is 127 chars wide
-        flake8 . --count --exit-zero --max-complexity=10 --max-line-length=127 --statistics
-  
-    - name: Test with pytest
-      run: |
-        mkdir -p reports
-        pwd
-        pytest --allure-dir=/home/runner/work/login-allure/login-allure/reports/
-        
-    - name: Collect Allure files and generate allure-report folder
-      run: |
-        allure generate reports/
-
-    - name: Test Results
-      uses: actions/upload-artifact@v2
-      if: always()
-      with:
-        name: smoke-testing-reports
-        path: allure-report
-      
+      - uses: actions/checkout@v2
+      - name: 🐍 Step 1 - Set up Python 3.9
+        uses: actions/setup-python@v1
+        with:
+          python-version: 3.9
+      - name: 🔗 Step 2 - Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install pipenv
+          pipenv install --deploy --system
+          brew update
+          brew install allure
+          pip install -r ./requirements.txt
+        working-directory: /home/runner/work/login-allure/login-allure
+      - name: 📂 Step 3 - Create a temp artifact folder named `output`
+        run: |
+          mkdir output
+      - name: 🦊 Step 4 - Run Firefox tests and generate Allure folder inside `output` folder
+        run: |
+          pytest -vs tests/ --browser firefox --alluredir={provide the directory where you want the allure folder to go}
+        working-directory: /home/runner/work/login-allure/login-allure
+      - name: 📊 Step 5 - Collect Allure files and generate allure-report folder
+        run: |
+          allure generate output/
+      - name: 🎁 Step 6 - Publishing Allure artifact to GitHub Actions
+        uses: actions/upload-artifact@v2
+        with:
+          name: allure-report
+          path: allure-report
